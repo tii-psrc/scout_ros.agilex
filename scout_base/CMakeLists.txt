@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 2.8.12)
 project(scout_base)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+# add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS    
     roslaunch 
@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
     std_msgs
     geometry_msgs
     tf2 
+    tf2_geometry_msgs
     tf2_ros
     ugv_sdk
     scout_msgs
@@ -45,6 +46,7 @@ target_link_libraries(scout_messenger ${catkin_LIBRARIES})
 add_dependencies(scout_messenger ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(scout_base_node src/scout_base_node.cpp)
+target_compile_definitions(scout_base_node PUBLIC ASIO_ENABLE_OLD_SERVICES)
 target_link_libraries(scout_base_node scout_messenger ${catkin_LIBRARIES})
 
 #############

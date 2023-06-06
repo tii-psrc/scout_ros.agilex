@@ -9,7 +9,8 @@
 
 #include "scout_base/scout_messenger.hpp"
 
-#include <tf/transform_broadcaster.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_ros/transform_broadcaster.h>
 
 #include "scout_msgs/ScoutStatus.h"
 #include "scout_msgs/ScoutBmsStatus.h"
@@ -267,7 +268,9 @@ namespace westonrobot
     position_y_ += d_y;
     theta_ += d_theta;
 
-    geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(theta_);
+    tf2::Quaternion q;
+    q.setRPY(0, 0, theta_);
+    geometry_msgs::Quaternion odom_quat = tf2::toMsg(q);
 
     // publish tf transformation
     geometry_msgs::TransformStamped tf_msg;
